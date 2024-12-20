@@ -3,47 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Dashboard Pecosas</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Estilos -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        body {
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .dashboard-container {
+            width: 90%;
+            max-width: 1200px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+        }
+        h2 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 10px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        .card img {
+            width: 60px;
+            margin-bottom: 15px;
+        }
+        .card h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .card p {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .card button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 10px;
+        }
+        .card button:hover {
+            background-color: #0056b3;
+        }
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+        }
+        .modal iframe {
+            width: 100%;
+            height: 400px;
+        }
+        .close {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        /* Mini Modal */
+        .mini-modal {
+            display: none;
+            position: absolute;
+            z-index: 2;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 40%;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .mini-modal .content {
+            font-size: 1em;
+            color: #333;
+            line-height: 1.5;
+        }
+        .close-mini {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <h2>Bienvenido al Dashboard De Pecosas</h2>
-        <p>Seleccione una opción para ingresar y vizualizar los datos:</p>
-        
+        <h2>Bienvenido al Dashboard de Pecosas</h2>
+        <p class="subtitle">Seleccione una opción para ingresar y visualizar los datos:</p>
         <div class="section">
+            <!-- Card 1 -->
             <div class="card">
+                <img src="https://img.icons8.com/ios-filled/50/4caf50/calendar.png" alt="Fecha">
                 <h3>Registro de Productos por Fecha</h3>
                 <p>Monitorea el número de productos registrados en diferentes fechas para identificar patrones y tendencias.</p>
-                <a href="https://app.powerbi.com/view?r=eyJrIjoiMWVlOWE4YjctODRkNS00ZGI1LTk2M2EtMjNlZmY4YThmMmFkIiwidCI6IjYwY2NkNDZkLTFlOWEtNDQxZS05ZGI3LThiZGQ1ZTIyYzA1YyIsImMiOjR9&pageName=cd3972ae5c34ad3f4e33" target="_blank">
-                    <button>Ingresar Aquí</button>
-                </a>
+                <button onclick="openModal('https://app.powerbi.com/view?r=eyJrIjoiMWVlOWE4YjctODRkNS00ZGI1LTk2M2EtMjNlZmY4YThmMmFkIiwidCI6IjYwY2NkNDZkLTFlOWEtNDQxZS05ZGI3LThiZGQ1ZTIyYzA1YyIsImMiOjR9&pageName=cd3972ae5c34ad3f4e33')">Ingresar Aquí</button>
+                <button onclick="openMiniModal('miniModal1')">DATOS ANALIZADOS</button>
             </div>
-            
+            <!-- Card 2 -->
             <div class="card">
+                <img src="https://img.icons8.com/ios-filled/50/4caf50/supplier.png" alt="Proveedor">
                 <h3>Registro de Pedidos por Proveedor</h3>
-                <p>Visualiza la cantidad de pedidos realizados a cada proveedor, destacando frecuencia y volumen por proveedor.</p>
-                <a href="https://app.powerbi.com/view?r=eyJrIjoiMWVlOWE4YjctODRkNS00ZGI1LTk2M2EtMjNlZmY4YThmMmFkIiwidCI6IjYwY2NkNDZkLTFlOWEtNDQxZS05ZGI3LThiZGQ1ZTIyYzA1YyIsImMiOjR9&pageName=6ccb6f77cc22e1ea8965" target="_blank">
-                    <button>Ingresar Aquí</button>
-                </a>
+                <p>Visualiza la cantidad de pedidos realizados a cada proveedor, destacando frecuencia y volumen.</p>
+                <button onclick="openModal('https://app.powerbi.com/view?r=eyJrIjoiMWVlOWE4YjctODRkNS00ZGI1LTk2M2EtMjNlZmY4YThmMmFkIiwidCI6IjYwY2NkNDZkLTFlOWEtNDQxZS05ZGI3LThiZGQ1ZTIyYzA1YyIsImMiOjR9&pageName=6ccb6f77cc22e1ea8965 ')">Ingresar Aquí</button>
+                <button onclick="openMiniModal('miniModal2')">DATOS ANALIZADOS</button>
             </div>
-            
+            <!-- Card 3 -->
             <div class="card">
+                <img src="https://img.icons8.com/ios-filled/50/4caf50/graph.png" alt="Mes">
                 <h3>Cantidad de Pedidos al Mes</h3>
-                <p>Muestra el total de pedidos realizados mensualmente para analizar tendencias y variaciones en la demanda.</p>
-                <a href="https://app.powerbi.com/view?r=eyJrIjoiMWVlOWE4YjctODRkNS00ZGI1LTk2M2EtMjNlZmY4YThmMmFkIiwidCI6IjYwY2NkNDZkLTFlOWEtNDQxZS05ZGI3LThiZGQ1ZTIyYzA1YyIsImMiOjR9" target="_blank">
-                    <button>Ingresar Aquí</button>
-                </a>
+                <p>Muestra el total de pedidos realizados mensualmente para analizar tendencias y variaciones.</p>
+                <button onclick="openModal('https://app.powerbi.com/view?r=eyJrIjoiMWVlOWE4YjctODRkNS00ZGI1LTk2M2EtMjNlZmY4YThmMmFkIiwidCI6IjYwY2NkNDZkLTFlOWEtNDQxZS05ZGI3LThiZGQ1ZTIyYzA1YyIsImMiOjR9 ')">Ingresar Aquí</button>
+                <button onclick="openMiniModal('miniModal3')">DATOS ANALIZADOS</button>
             </div>
-            
+            <!-- Card 4 -->
             <div class="card">
-                <h3>Registro de Marcas en Ordenes de compra</h3>
-                <p>Este registro permite identificar fácilmente la marca de cada artículo dentro de una orden específica, facilitando el control de inventarios, el seguimiento de productos, y la gestión de relaciones con proveedores.</p>
-                <a href="https://app.powerbi.com/view?r=eyJrIjoiMWVlOWE4YjctODRkNS00ZGI1LTk2M2EtMjNlZmY4YThmMmFkIiwidCI6IjYwY2NkNDZkLTFlOWEtNDQxZS05ZGI3LThiZGQ1ZTIyYzA1YyIsImMiOjR9" target="_blank">
-                    <button>Ingresar Aquí</button>
-                </a>
+                <img src="https://img.icons8.com/ios-filled/50/000000/box.png" alt="Inventario">
+                <h3>Registro de Marcas en Órdenes</h3>
+                <p>Facilita el control de inventarios y seguimiento de productos en órdenes de compra.</p>
+                <button onclick="openModal('https://app.powerbi.com/view?r=eyJrIjoiMWVlOWE4YjctODRkNS00ZGI1LTk2M2EtMjNlZmY4YThmMmFkIiwidCI6IjYwY2NkNDZkLTFlOWEtNDQxZS05ZGI3LThiZGQ1ZTIyYzA1YyIsImMiOjR9 ')">Ingresar Aquí</button>
+                <button onclick="openMiniModal('miniModal4')">DATOS ANALIZADOS</button>
+            </div>
+            <!-- Card 5 -->
+            <div class="card">
+                <img src="https://img.icons8.com/ios-filled/50/4caf50/statistics.png" alt="Estadísticas">
+                <h3>Demanda Mensual de Medicamentos por Patologías</h3>
+                <p>Visualiza estadísticas generales de la empresa para obtener una visión global del rendimiento.</p>
+                <button onclick="openModal('https://app.powerbi.com/view?r=eyJrIjoiMWVlOWE4YjctODRkNS00ZGI1LTk2M2EtMjNlZmY4YThmMmFkIiwidCI6IjYwY2NkNDZkLTFlOWEtNDQxZS05ZGI3LThiZGQ1ZTIyYzA1YyIsImMiOjR9&pageName=eeb723f91a499b8d3740')">Ingresar Aquí</button>
+                <button onclick="openMiniModal('miniModal5')">Abrir Mini Pestaña</button>
+            </div>
+            <!-- Card 6 -->
+            <div class="card">
+                <img src="https://img.icons8.com/ios-filled/50/4caf50/warehouse.png" alt="Almacenamiento">
+                <h3>Patrones de Consumo de Medicamentos Según Enfermedades</h3>
+                <p>Monitorea el espacio disponible y ocupado en el almacén, ayudando en la optimización de recursos.</p>
+                <button onclick="openModal('https://app.powerbi.com/view?r=eyJrIjoiMWVlOWE4YjctODRkNS00ZGI1LTk2M2EtMjNlZmY4YThmMmFkIiwidCI6IjYwY2NkNDZkLTFlOWEtNDQxZS05ZGI3LThiZGQ1ZTIyYzA1YyIsImMiOjR9')">Ingresar Aquí</button>
+                <button onclick="openMiniModal('miniModal6')">Abrir Mini Pestaña</button>
+            </div>
+            <!-- Card 7 -->
+            <div class="card">
+                <img src="https://img.icons8.com/ios-filled/50/4caf50/shopping-cart.png" alt="Ventas">
+                <h3>Ventas por Producto</h3>
+                <p>Revisa las ventas por producto para tomar decisiones sobre inventarios y precios.</p>
+                <button onclick="openModal('https://app.powerbi.com/view?r=example7')">Ingresar Aquí</button>
+                <button onclick="openMiniModal('miniModal7')">Abrir Mini Pestaña</button>
+            </div>
+            <!-- Card 8 -->
+            <div class="card">
+                <img src="https://img.icons8.com/ios-filled/50/4caf50/return.png" alt="Devoluciones">
+                <h3>Devoluciones de Productos</h3>
+                <p>Monitorea las devoluciones realizadas, las razones y el impacto en el inventario.</p>
+                <button onclick="openModal('https://app.powerbi.com/view?r=example8')">Ingresar Aquí</button>
+                <button onclick="openMiniModal('miniModal8')">Abrir Mini Pestaña</button>
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <iframe id="modalIframe" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <!-- Mini Modals -->
+    <div id="miniModal1" class="mini-modal">
+        <span class="close-mini" onclick="closeMiniModal('miniModal1')">&times;</span>
+        <div class="content">
+            <h3>Registro de Productos por Fecha - Análisis de Tendencias</h3>
+            <p>El análisis de productos registrados por fecha muestra los picos de ventas en ciertas temporadas, permitiendo anticipar aumentos en la demanda. Se observó un crecimiento significativo en los meses de noviembre y diciembre, lo que indica una mayor actividad comercial durante las festividades.</p>
+        </div>
+    </div>
+    
+    <div id="miniModal2" class="mini-modal">
+        <span class="close-mini" onclick="closeMiniModal('miniModal2')">&times;</span>
+        <div class="content">
+            <h3>Registro de Pedidos por Proveedor - Análisis de Frecuencia y Volumen</h3>
+            <p>Los proveedores más frecuentes son "Proveedor A" y "Proveedor B", con un volumen de pedidos constante. Sin embargo, la proporción de pedidos tardíos ha aumentado en un 15% este trimestre, lo que sugiere la necesidad de revisar acuerdos de entrega y tiempos de respuesta.</p>
+        </div>
+    </div>
+    
+    <div id="miniModal3" class="mini-modal">
+        <span class="close-mini" onclick="closeMiniModal('miniModal3')">&times;</span>
+        <div class="content">
+            <h3>Cantidad de Pedidos al Mes - Análisis de Variaciones</h3>
+            <p>El análisis de los pedidos por mes revela una baja en los pedidos en el mes de agosto, mientras que octubre y noviembre mostraron un crecimiento de un 25%. Se recomienda evaluar las campañas promocionales de estos meses como factor clave del aumento.</p>
+        </div>
+    </div>
+    
+    <div id="miniModal4" class="mini-modal">
+        <span class="close-mini" onclick="closeMiniModal('miniModal4')">&times;</span>
+        <div class="content">
+            <h3>Registro de Marcas en Órdenes - Análisis de Inventarios</h3>
+            <p>El análisis muestra que la marca "Marca X" ocupa el 40% del total de órdenes en el último trimestre. Esta alta concentración sugiere que se debe diversificar el inventario y buscar acuerdos con nuevos proveedores para reducir riesgos de escasez.</p>
+        </div>
+    </div>
+    
+    <div id="miniModal5" class="mini-modal">
+        <span class="close-mini" onclick="closeMiniModal('miniModal5')">&times;</span>
+        <div class="content">
+            <h3>Estadísticas Generales - Análisis de Rendimiento</h3>
+            <p>El análisis de rendimiento general muestra que las ventas han aumentado un 15% en comparación con el año anterior. Sin embargo, las devoluciones también aumentaron en un 10%, lo que puede reflejar una baja en la calidad de algunos productos o problemas de satisfacción con los clientes.</p>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script>
+        function openModal(url) {
+            document.getElementById('modalIframe').src = url;
+            document.getElementById('modal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('modalIframe').src = '';
+        }
+
+        function openMiniModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeMiniModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+    </script>
 </body>
 </html>
